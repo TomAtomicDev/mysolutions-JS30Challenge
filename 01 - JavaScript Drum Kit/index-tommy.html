@@ -58,6 +58,29 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  window.addEventListener('keydown', playSound);
+
+  function playSound (eventObj) {
+    
+    let codekey = eventObj.keyCode;
+    let audio = document.querySelector(`audio[data-key="${codekey}"]`);
+    let boxkey = document.querySelector(`div[data-key="${codekey}"]`);
+    if (!audio) {return}; // Stops the function if a key with no audio attached is pressed
+    audio.currentTime=0; // Allows to restart the sand if a key is pressed several times
+    audio.play();
+    boxkey.classList.add("playing");
+
+  }
+
+  let boxes = document.querySelectorAll(".key");
+  boxes.forEach(box => {
+    box.addEventListener('transitionend', removePlayingClass)
+  });
+
+  function removePlayingClass (eventBox) {
+    if (eventBox.propertyName !== 'transform') {return}; // only for the transform property
+    eventBox.target.classList.remove('playing');
+  }
 
 </script>
 
